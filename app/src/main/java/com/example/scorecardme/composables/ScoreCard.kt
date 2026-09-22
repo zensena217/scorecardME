@@ -1,8 +1,16 @@
 package com.example.scorecardme.composables
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.PrimaryTabRow
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.scorecardme.data.Hitter
@@ -67,6 +75,7 @@ fun ScoreCard(modifier: Modifier = Modifier) {
             Pair(9, arrayListOf(Hitter("Young", Position(8, "CF")))),
         )
     )
+    var selectedDestination by rememberSaveable { mutableIntStateOf(0) }
     LazyColumn(
         modifier
     ) {
@@ -74,6 +83,20 @@ fun ScoreCard(modifier: Modifier = Modifier) {
             Scoreboard(scoreboardData)
         }
         item {
+            PrimaryTabRow(
+                selectedTabIndex = selectedDestination
+            ) {
+                Tab(selected = selectedDestination == 0, onClick = {
+                    selectedDestination = 0
+                }) {
+                    Text("Away")
+                }
+                Tab(selected = selectedDestination == 1, onClick = {
+                    selectedDestination = 1
+                }) {
+                    Text("Home")
+                }
+            }
             DisplayTeam(teamData)
         }
     }
