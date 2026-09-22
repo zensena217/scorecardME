@@ -37,5 +37,5 @@ fun ScoreCard(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewScoreCard() {
-
+    ScoreCard()
 }
