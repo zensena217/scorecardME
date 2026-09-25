@@ -7,40 +7,45 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import com.example.scorecardme.composables.generic.TableCell
 import com.example.scorecardme.data.ScoreInfo
 import com.example.scorecardme.data.ScoreboardData
 
 @Composable
 fun Scoreboard(scoreboardData: ScoreboardData) {
+    val color = MaterialTheme.colorScheme.primaryContainer
     Row(
         Modifier
             .fillMaxWidth()
-            .padding(16.dp, 4.dp)
-            .border(1.dp, Color.Black)
+            .padding(8.dp, 4.dp)
+            .border(1.dp, color)
     ) {
-        Column(
+
+        TableCell (
             Modifier
-                .weight(1.25f)
+                .weight(1.35f)
                 .drawBehind {
                     val strokeWidth = 1.dp.toPx()
                     drawLine(
-                        color = Color.Black,
+                        color = color,
                         start = Offset(size.width - strokeWidth / 2, 0f),
                         end = Offset(size.width - strokeWidth / 2, size.height),
                         strokeWidth = strokeWidth
                     )
-                }
+                },
+            horizontalAlignment = Alignment.Start
         ) {
             Row {
                 Text("", fontSize = TextUnit(4f, TextUnitType.Em))
@@ -50,6 +55,7 @@ fun Scoreboard(scoreboardData: ScoreboardData) {
             ) {
                 Text(scoreboardData.away.name, fontSize = TextUnit(4f, TextUnitType.Em), maxLines = 1)
             }
+            HorizontalDivider(color = color)
             Row(
                 Modifier.padding(4.dp, 0.dp)
             ) {
@@ -58,28 +64,20 @@ fun Scoreboard(scoreboardData: ScoreboardData) {
         }
 
         LazyRow(
-            Modifier.weight(3f),
+            Modifier.fillMaxWidth(.5f),
             horizontalArrangement = Arrangement.Start
         ) {
             items(scoreboardData.totalInnings) { index ->
-                Column(
-                    Modifier
-                        .drawBehind {
-                            val strokeWidth = 1.dp.toPx()
-                            drawLine(
-                                color = Color.Black,
-                                start = Offset(size.width - strokeWidth / 2, 0f),
-                                end = Offset(size.width - strokeWidth / 2, size.height),
-                                strokeWidth = strokeWidth
-                            )
-                        },
+                TableCell(
+                    Modifier,
+                    drawRight = true,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Row(
                         Modifier.drawBehind {
                             val strokeWidth = 1.dp.toPx()
                             drawLine(
-                                color = Color.Black,
+                                color = color,
                                 start = Offset(0f, size.height),
                                 end = Offset(size.width, size.height),
                                 strokeWidth = strokeWidth
@@ -92,7 +90,7 @@ fun Scoreboard(scoreboardData: ScoreboardData) {
                         Modifier.drawBehind {
                             val strokeWidth = 1.dp.toPx()
                             drawLine(
-                                color = Color.Black,
+                                color = color,
                                 start = Offset(0f, size.height),
                                 end = Offset(size.width, size.height),
                                 strokeWidth = strokeWidth
@@ -107,50 +105,107 @@ fun Scoreboard(scoreboardData: ScoreboardData) {
                 }
             }
         }
-        Row(
-            Modifier.weight(1f)
+        Column(
+            Modifier.drawBehind {
+                val strokeWidth = 1.dp.toPx()
+                drawLine(
+                    color = color,
+                    start = Offset(size.width - strokeWidth / 2, 0f),
+                    end = Offset(size.width - strokeWidth / 2, size.height),
+                    strokeWidth = strokeWidth
+                )
+                drawLine(
+                    color = color,
+                    start = Offset(0f, 0f),
+                    end = Offset(0f, size.height),
+                    strokeWidth = strokeWidth
+                )
+                drawLine(
+                    color = color,
+                    start = Offset(0f, size.height/3),
+                    end = Offset(size.width, size.height/3),
+                    strokeWidth = strokeWidth
+                )
+                drawLine(
+                    color = color,
+                    start = Offset(0f, (size.height/1.5).toFloat()),
+                    end = Offset(size.width, (size.height/1.5).toFloat()),
+                    strokeWidth = strokeWidth
+                )
+            }.weight(.5f).padding(8.dp, 0.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Column(
-                Modifier.padding(4.dp, 0.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row {
-                    Text("R", fontSize = TextUnit(4f, TextUnitType.Em))
-                }
-                Row {
-                    Text("${scoreboardData.away.runs.reduce{tot, i -> tot + i}}", fontSize = TextUnit(4f, TextUnitType.Em))
-                }
-                Row {
-                    Text("${scoreboardData.home.runs.reduce { tot, i -> tot + i }}", fontSize = TextUnit(4f, TextUnitType.Em))
-                }
+            Row{
+                Text("R", fontSize = TextUnit(4f, TextUnitType.Em))
             }
-            Column(
-                Modifier.padding(4.dp, 0.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row {
-                    Text("H", fontSize = TextUnit(4f, TextUnitType.Em))
-                }
-                Row {
-                    Text("${scoreboardData.away.hits}", fontSize = TextUnit(4f, TextUnitType.Em))
-                }
-                Row {
-                    Text("${scoreboardData.home.hits}", fontSize = TextUnit(4f, TextUnitType.Em))
-                }
+            Row {
+                Text("${scoreboardData.away.runs.reduce{tot, i -> tot + i}}", fontSize = TextUnit(4f, TextUnitType.Em))
             }
-            Column(
-                Modifier.padding(4.dp, 0.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row {
-                    Text("E", fontSize = TextUnit(4f, TextUnitType.Em))
-                }
-                Row {
-                    Text("${scoreboardData.away.errors}", fontSize = TextUnit(4f, TextUnitType.Em))
-                }
-                Row {
-                    Text("${scoreboardData.home.errors}", fontSize = TextUnit(4f, TextUnitType.Em))
-                }
+            Row {
+                Text("${scoreboardData.home.runs.reduce { tot, i -> tot + i }}", fontSize = TextUnit(4f, TextUnitType.Em))
+            }
+        }
+        Column(
+            Modifier.drawBehind {
+                val strokeWidth = 1.dp.toPx()
+                drawLine(
+                    color = color,
+                    start = Offset(size.width - strokeWidth / 2, 0f),
+                    end = Offset(size.width - strokeWidth / 2, size.height),
+                    strokeWidth = strokeWidth
+                )
+                drawLine(
+                    color = color,
+                    start = Offset(0f, size.height/3),
+                    end = Offset(size.width, size.height/3),
+                    strokeWidth = strokeWidth
+                )
+                drawLine(
+                    color = color,
+                    start = Offset(0f, (size.height/1.5).toFloat()),
+                    end = Offset(size.width, (size.height/1.5).toFloat()),
+                    strokeWidth = strokeWidth
+                )
+            }.weight(.5f).padding(4.dp, 0.dp, 6.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row {
+                Text("H", fontSize = TextUnit(4f, TextUnitType.Em))
+            }
+            Row {
+                Text("${scoreboardData.away.hits}", fontSize = TextUnit(4f, TextUnitType.Em))
+            }
+            Row {
+                Text("${scoreboardData.home.hits}", fontSize = TextUnit(4f, TextUnitType.Em))
+            }
+        }
+        Column(
+            Modifier.weight(.5f).drawBehind {
+                val strokeWidth = 1.dp.toPx()
+                drawLine(
+                    color = color,
+                    start = Offset(0f, size.height / 3),
+                    end = Offset(size.width, size.height / 3),
+                    strokeWidth = strokeWidth
+                )
+                drawLine(
+                    color = color,
+                    start = Offset(0f, (size.height / 1.5).toFloat()),
+                    end = Offset(size.width, (size.height / 1.5).toFloat()),
+                    strokeWidth = strokeWidth
+                )
+            }.padding(4.dp, 0.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row {
+                Text("E", fontSize = TextUnit(4f, TextUnitType.Em))
+            }
+            Row {
+                Text("${scoreboardData.away.errors}", fontSize = TextUnit(4f, TextUnitType.Em))
+            }
+            Row {
+                Text("${scoreboardData.home.errors}", fontSize = TextUnit(4f, TextUnitType.Em))
             }
         }
     }

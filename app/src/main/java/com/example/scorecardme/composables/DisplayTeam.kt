@@ -1,9 +1,11 @@
 package com.example.scorecardme.composables
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -11,13 +13,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
@@ -26,195 +26,257 @@ import com.example.scorecardme.data.Hitter
 import com.example.scorecardme.data.Pitcher
 import com.example.scorecardme.data.Position
 import com.example.scorecardme.data.TeamData
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.text.style.TextOverflow
+import com.example.scorecardme.composables.generic.TableCell
 
 @Composable
 fun DisplayTeam(teamData: TeamData) {
+    val color = MaterialTheme.colorScheme.primaryContainer
     Column(
         Modifier.fillMaxWidth().padding(8.dp)
     ) {
         LazyRow(Modifier.fillMaxWidth()) {
             item {
                 Column(
+                    Modifier.border(1.dp, color)
                 ) {
-                    HorizontalDivider(Modifier.fillParentMaxWidth(1f))
                     Row(
                         modifier = Modifier.height(IntrinsicSize.Min)
                     ) {
-                        VerticalDivider()
-                        Column(
-                            Modifier.padding(6.dp, 0.dp).size(16.dp, 48.dp),
-                            verticalArrangement = Arrangement.Center
+                        TableCell(
+                            Modifier.size(32.dp, 48.dp),
+                            drawRight = true
                         ) {
-                            Text("#", fontSize = TextUnit(4f, TextUnitType.Em))
+                            Text(
+                                text = "#",
+                                modifier = Modifier.wrapContentHeight(),
+                                fontSize = TextUnit(4f, TextUnitType.Em),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis)
                         }
-                        VerticalDivider()
-                        Column(
+                        TableCell(
                             Modifier.padding(6.dp, 0.dp).size(148.dp, 48.dp),
-                            verticalArrangement = Arrangement.Center
+                            horizontalAlignment = Alignment.Start,
+                            drawRight = true
                         ) {
-                            Text("Player", fontSize = TextUnit(4f, TextUnitType.Em))
+                            Text(
+                                text = "Player",
+                                modifier = Modifier.wrapContentHeight(),
+                                fontSize = TextUnit(4f, TextUnitType.Em),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis)
                         }
-                        VerticalDivider()
                         (1..9).forEach {
-                            Column(
+                            TableCell(
                                 Modifier.size(48.dp, 48.dp),
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
+                                drawRight = true
                             ) {
-                                Text("$it", fontSize = TextUnit(4f, TextUnitType.Em))
+                                Text(
+                                    text = "$it",
+                                    modifier = Modifier.wrapContentHeight(),
+                                    fontSize = TextUnit(4f, TextUnitType.Em),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis)
                             }
-                            VerticalDivider()
                         }
                     }
-                    HorizontalDivider(Modifier.fillParentMaxWidth(1f))
                     teamData.hitters.forEach { (i, hitters) ->
                         Row(
                             modifier = Modifier.height(IntrinsicSize.Min),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            VerticalDivider()
-                            Column(
-                                Modifier.padding(6.dp, 0.dp).size(16.dp, 48.dp),
-                                verticalArrangement = Arrangement.Center
+                            TableCell(
+                                Modifier.size(32.dp, 48.dp),
+                                drawRight = true,
+                                drawDown = true
                             ) {
-                                Text("$i", fontSize = TextUnit(4f, TextUnitType.Em))
+                                Text(
+                                    text = "$i",
+                                    modifier = Modifier.wrapContentHeight(),
+                                    fontSize = TextUnit(4f, TextUnitType.Em),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
                             }
-                            VerticalDivider()
-                            Column(
+                            TableCell(
                                 Modifier.padding(6.dp, 0.dp).size(148.dp, 48.dp),
-                                verticalArrangement = Arrangement.Center
+                                horizontalAlignment = Alignment.Start,
+                                drawRight = true,
+                                drawDown = true
                             ) {
-                                Text(hitters.joinToString("/") { hitter ->
-                                    hitter.name
-                                }, fontSize = TextUnit(4f, TextUnitType.Em))
+                                Text(
+                                    text = hitters.joinToString("/") { hitter ->
+                                        hitter.name
+                                    },
+                                    modifier = Modifier.wrapContentHeight(),
+                                    fontSize = TextUnit(4f, TextUnitType.Em),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
                             }
-                            VerticalDivider()
                             (1..9).forEach {
-                                Column(
+                                TableCell(
                                     Modifier.size(48.dp, 48.dp),
-                                    verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.CenterHorizontally
+                                    drawRight = true,
+                                    drawDown = true
                                 ) {
-                                    Text("$it", fontSize = TextUnit(4f, TextUnitType.Em))
+                                    Text(
+                                        text = "$it",
+                                        modifier = Modifier.wrapContentHeight(),
+                                        fontSize = TextUnit(4f, TextUnitType.Em),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
                                 }
-                                VerticalDivider()
                             }
                         }
-                        HorizontalDivider(Modifier.fillParentMaxWidth(1f))
                     }
                 }
             }
         }
         Row(Modifier.wrapContentSize()) {
             Column(
-                Modifier.fillMaxWidth(.75f).padding(0.dp, 24.dp, 0.dp, 4.dp),
+                Modifier
+                    .padding(0.dp, 24.dp, 0.dp, 4.dp)
+                    .border(1.dp, color)
+                    .fillMaxWidth(.75f),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.Start
             ) {
-                HorizontalDivider()
                 Row(
                     Modifier.fillMaxWidth().height(36.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    VerticalDivider()
-                    Column(modifier = Modifier.weight(3f).wrapContentHeight()) {
+                    TableCell(
+                        modifier = Modifier.weight(3f).wrapContentHeight().padding(8.dp, 0.dp, 0.dp),
+                        horizontalAlignment = Alignment.Start
+                    ) {
                         Text("Pitcher", fontSize = TextUnit(4f, TextUnitType.Em))
                     }
-                    VerticalDivider()
-                    Column(
+                    TableCell(
                         modifier = Modifier.weight(1.25f).wrapContentHeight(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        drawLeft = true
                     ) {
                         Text("I", fontSize = TextUnit(4f, TextUnitType.Em))
                     }
-                    VerticalDivider()
-                    Column(
-                        modifier = Modifier.weight(1f).wrapContentHeight(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                    TableCell(
+                        modifier = Modifier.weight(1.25f).wrapContentHeight(),
+                        drawLeft = true
                     ) {
                         Text("R", fontSize = TextUnit(4f, TextUnitType.Em))
                     }
-                    VerticalDivider()
-                    Column(
-                        modifier = Modifier.weight(1f).wrapContentHeight(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                    TableCell(
+                        modifier = Modifier.weight(1.25f).wrapContentHeight(),
+                        drawLeft = true
                     ) {
                         Text("ER", fontSize = TextUnit(4f, TextUnitType.Em))
                     }
-                    VerticalDivider()
-                    Column(
-                        modifier = Modifier.weight(1f).wrapContentHeight(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                    TableCell(
+                        modifier = Modifier.weight(1.25f).wrapContentHeight(),
+                        drawLeft = true
                     ) {
                         Text("K", fontSize = TextUnit(4f, TextUnitType.Em))
                     }
-                    VerticalDivider()
-                    Column(
+                    TableCell(
                         modifier = Modifier.weight(1.25f).wrapContentHeight(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        drawLeft = true
                     ) {
                         Text("BB", fontSize = TextUnit(4f, TextUnitType.Em))
                     }
-                    VerticalDivider()
                 }
-                HorizontalDivider()
                 teamData.pitchers.forEach { pitcher ->
                     Row(
-                        Modifier.fillMaxWidth().height(48.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        Modifier.drawBehind {
+                            val strokeWidth = 1.dp.toPx()
+                            drawLine(
+                                color = color,
+                                start = Offset(0f, 0f),
+                                end = Offset(size.width, 0f),
+                                strokeWidth = strokeWidth
+                            )
+                        }.height(48.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        VerticalDivider()
-                        Column(
-                            modifier = Modifier.weight(3f).wrapContentHeight()
+                        TableCell(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .weight(3f)
+                                .padding(8.dp, 0.dp, 0.dp),
+                            horizontalAlignment = Alignment.Start
                         ) {
                             Text(
-                                pitcher.name,
+                                text = pitcher.name,
+                                modifier = Modifier.wrapContentHeight(),
                                 fontSize = TextUnit(4f, TextUnitType.Em),
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis)
+                                overflow = TextOverflow.Ellipsis
+                            )
                         }
-                        VerticalDivider()
-                        Column(
-                            modifier = Modifier.weight(1.25f).wrapContentHeight(),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                        TableCell(
+                            modifier = Modifier.fillMaxHeight().weight(1.25f),
+                            drawLeft = true
                         ) {
-                            Text("${pitcher.inningsPitched}", fontSize = TextUnit(4f, TextUnitType.Em))
+                            Text(
+                                text = "${pitcher.inningsPitched}",
+                                modifier = Modifier.wrapContentHeight(),
+                                fontSize = TextUnit(4f, TextUnitType.Em),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
                         }
-                        VerticalDivider()
-                        Column(
-                            modifier = Modifier.weight(1f).wrapContentHeight(),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                        TableCell(
+                            modifier = Modifier.fillMaxHeight().weight(1.25f),
+                            drawLeft = true
                         ) {
-                            Text("${pitcher.runs}", fontSize = TextUnit(4f, TextUnitType.Em))
+                            Text(
+                                text = "${pitcher.runs}",
+                                modifier = Modifier.wrapContentHeight(),
+                                fontSize = TextUnit(4f, TextUnitType.Em),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
                         }
-                        VerticalDivider()
-                        Column(
-                            modifier = Modifier.weight(1f).wrapContentHeight(),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                        TableCell(
+                            modifier = Modifier.fillMaxHeight().weight(1.25f),
+                            drawLeft = true
                         ) {
-                            Text("${pitcher.earnedRuns}", fontSize = TextUnit(4f, TextUnitType.Em))
+                            Text(
+                                text = "${pitcher.earnedRuns}",
+                                modifier = Modifier.wrapContentHeight(),
+                                fontSize = TextUnit(4f, TextUnitType.Em),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
                         }
-                        VerticalDivider()
-                        Column(
-                            modifier = Modifier.weight(1f).wrapContentHeight(),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                        TableCell(
+                            modifier = Modifier.fillMaxHeight().weight(1.25f),
+                            drawLeft = true
                         ) {
-                            Text("${pitcher.strikeouts}", fontSize = TextUnit(4f, TextUnitType.Em))
+                            Text(
+                                text = "${pitcher.strikeouts}",
+                                modifier = Modifier.wrapContentHeight(),
+                                fontSize = TextUnit(4f, TextUnitType.Em),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
                         }
-                        VerticalDivider()
-                        Column(
-                            modifier = Modifier.weight(1.25f).wrapContentHeight(),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                        TableCell(
+                            modifier = Modifier.fillMaxHeight().weight(1.25f),
+                            drawLeft = true
                         ) {
-                            Text("${pitcher.walks}", fontSize = TextUnit(4f, TextUnitType.Em))
+                            Text(
+                                text = "${pitcher.walks}",
+                                modifier = Modifier.wrapContentHeight(),
+                                fontSize = TextUnit(4f, TextUnitType.Em),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
                         }
-                        VerticalDivider()
                     }
-                    HorizontalDivider()
                 }
-                HorizontalDivider()
             }
         }
     }
