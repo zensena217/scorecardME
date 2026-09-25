@@ -1,4 +1,4 @@
-package com.example.scorecardme.composables.home
+package com.example.scorecardme.composables.history
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -14,7 +14,7 @@ import com.example.scorecardme.data.Team
 
 
 @Composable
-fun Home(modifier: Modifier = Modifier) {
+fun History(modifier: Modifier = Modifier) {
     val history = arrayListOf(
         GameHistory(
             0,
@@ -59,6 +59,6 @@ fun Home(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewHome() {
-    Home()
+fun PreviewHistory() {
+    History()
 }
