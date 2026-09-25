@@ -1,12 +1,24 @@
 package com.example.scorecardme.composables
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.PrimaryTabRow
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.scorecardme.data.Hitter
+import com.example.scorecardme.data.Pitcher
+import com.example.scorecardme.data.Position
 import com.example.scorecardme.data.ScoreInfo
 import com.example.scorecardme.data.ScoreboardData
+import com.example.scorecardme.data.TeamData
 
 @Composable
 fun ScoreCard(modifier: Modifier = Modifier) {
@@ -24,11 +36,68 @@ fun ScoreCard(modifier: Modifier = Modifier) {
             2
         )
     )
+    val teamData = TeamData(
+        pitchers = arrayListOf(
+            Pitcher(
+                "Alvarez",
+                7.0,
+                strikeouts = 9,
+                walks = 3,
+                runs = 0,
+                earnedRuns = 0
+            ),
+            Pitcher(
+                "Beeter",
+                .2,
+                strikeouts = 0,
+                walks = 2,
+                runs = 3,
+                earnedRuns = 3
+            ),
+            Pitcher(
+                name = "Dion",
+                inningsPitched = 1.1,
+                strikeouts = 2,
+                walks = 1,
+                runs = 0,
+                earnedRuns = 0
+            )
+        ),
+        hitters = mapOf(
+            Pair(1, arrayListOf(Hitter("Wood", Position(0, "DH")))),
+            Pair(2, arrayListOf(Hitter("Ortiz", Position(3, "1B")))),
+            Pair(3, arrayListOf(Hitter("Crews", Position(9, "RF")))),
+            Pair(4, arrayListOf(Hitter("Abrams", Position(6, "SS")))),
+            Pair(5, arrayListOf(Hitter("House", Position(5, "3B")))),
+            Pair(6, arrayListOf(Hitter("Lile", Position(7, "LF")))),
+            Pair(7, arrayListOf(Hitter("Ford", Position(2, "C")))),
+            Pair(8, arrayListOf(Hitter("Vivas", Position(4, "2B")), Hitter("Nunez", Position(4, "2B")))),
+            Pair(9, arrayListOf(Hitter("Young", Position(8, "CF")))),
+        )
+    )
+    var selectedDestination by rememberSaveable { mutableIntStateOf(0) }
     LazyColumn(
         modifier
     ) {
         item {
             Scoreboard(scoreboardData)
+        }
+        item {
+            PrimaryTabRow(
+                selectedTabIndex = selectedDestination
+            ) {
+                Tab(selected = selectedDestination == 0, onClick = {
+                    selectedDestination = 0
+                }) {
+                    Text("Away")
+                }
+                Tab(selected = selectedDestination == 1, onClick = {
+                    selectedDestination = 1
+                }) {
+                    Text("Home")
+                }
+            }
+            DisplayTeam(teamData)
         }
     }
 
