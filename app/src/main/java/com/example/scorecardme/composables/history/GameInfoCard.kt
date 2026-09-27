@@ -27,37 +27,34 @@ import com.example.scorecardme.data.GameHistory
 import com.example.scorecardme.data.Team
 
 @Composable
-fun GameInfoCard(history: GameHistory) {
+fun GameInfoCard(modifier: Modifier = Modifier, history: GameHistory) {
     Card(
-        modifier = Modifier.fillMaxWidth().height(64.dp)
+        modifier = modifier
     ) {
         Row(modifier = Modifier.fillMaxWidth().padding(8.dp, 4.dp, 0.dp,0.dp)) {
             Text("${history.away.name} @ ${history.home.name} - ${history.date}", fontSize = TextUnit(2f, TextUnitType.Em), fontStyle = FontStyle.Italic)
         }
         Row(
-            modifier = Modifier.fillMaxSize().padding(16.dp, 4.dp),
+            modifier = Modifier.fillMaxWidth().padding(16.dp, 4.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
             ) {
                 Image(
-                    modifier = Modifier.size(44.dp),
+                    modifier = Modifier.size(64.dp),
                     painter = painterResource(R.mipmap.ic_mia_logo),
                     contentDescription = "${history.away.name} logo"
                 )
             }
             Column(
-                modifier = Modifier.fillMaxHeight(),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text("${history.awayScore} - ${history.homeScore}", fontWeight = FontWeight.Bold)
             }
-            Column(
-                modifier = Modifier.fillMaxHeight()
-            ) {
+            Column{
                 Image(
-                    modifier = Modifier.size(44.dp),
+                    modifier = Modifier.size(64.dp),
                     painter = painterResource(R.mipmap.ic_wsh_foreground),
                     contentDescription = "${history.home.name} logo"
                 )
@@ -69,7 +66,7 @@ fun GameInfoCard(history: GameHistory) {
 @Preview
 @Composable
 fun PreviewGameInfoCard() {
-    GameInfoCard(GameHistory(
+    GameInfoCard(history = GameHistory(
         0,
         Team(
             "WSH",
