@@ -70,13 +70,14 @@ fun History(modifier: Modifier = Modifier) {
         ) {
             LazyColumn(
                 modifier = Modifier.align(Alignment.TopCenter),
-                contentPadding = PaddingValues(8.dp, 4.dp)
+                contentPadding = PaddingValues(8.dp, 4.dp),
+                overscrollEffect = null
             ) {
-                item {
+                stickyHeader {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(0.dp, 4.dp)
+                            .padding(bottom = 4.dp)
                             .background(colors.surface),
                         horizontalArrangement = Arrangement.Center
                     ) {
