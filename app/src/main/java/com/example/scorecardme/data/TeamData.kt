@@ -5,6 +5,11 @@ data class TeamData(
     val pitchers: ArrayList<Pitcher>
 )
 
+data class Team(
+    val name: String,
+    val logo: String
+)
+
 data class Hitter(
     val name: String,
     val position: Position
