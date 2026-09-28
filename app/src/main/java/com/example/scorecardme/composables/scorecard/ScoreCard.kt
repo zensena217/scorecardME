@@ -1,9 +1,7 @@
-package com.example.scorecardme.composables
+package com.example.scorecardme.composables.scorecard
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.PrimaryTabRow
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

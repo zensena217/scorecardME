@@ -26,13 +26,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.scorecardme.R
 import com.example.scorecardme.data.GameHistory
 import com.example.scorecardme.data.Team
 
 
 @Composable
-fun History(modifier: Modifier = Modifier) {
+fun History(modifier: Modifier = Modifier, navController: NavHostController) {
     val history = arrayListOf(
         GameHistory(
             0,
@@ -100,7 +102,7 @@ fun History(modifier: Modifier = Modifier) {
             FloatingActionButton (
                 modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
                 onClick = {
-
+                    navController.navigate("add_score_card")
                 },
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 contentColor = MaterialTheme.colorScheme.secondary
@@ -118,5 +120,5 @@ fun History(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewHistory() {
-    History()
+    History(navController = rememberNavController())
 }
