@@ -1,6 +1,5 @@
 package com.example.scorecardme.composables.add_score_card
 
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,11 +10,16 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,10 +30,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.scorecardme.R
 import com.example.scorecardme.composables.scorecard.Scoreboard
-import com.example.scorecardme.data.Hitter
-import com.example.scorecardme.data.Pitcher
+import com.example.scorecardme.data.Destination
 import com.example.scorecardme.data.ScoreInfo
 import com.example.scorecardme.data.ScoreboardData
+import kotlin.collections.getOrPut
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,16 +41,9 @@ fun AddScoreCard(navController: NavController) {
 
     val openAddTeamDialog = remember { mutableStateOf(false) }
     val scoreboardData = remember { mutableStateOf<ScoreboardData?>(null) }
-
+    var selectedDestination by rememberSaveable { mutableIntStateOf(0) }
     var baseInnings = 9
 
-    var awayTeam: ScoreInfo? = null
-    var awayHitters = arrayListOf<Hitter>()
-    var awayPitchers = arrayListOf<Pitcher>()
-
-    var homeTeam: ScoreInfo? = null
-    var homeHitters = arrayListOf<Hitter>()
-    var homePitchers = arrayListOf<Pitcher>()
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -57,11 +54,15 @@ fun AddScoreCard(navController: NavController) {
                     Text("New Score Card")
                 },
                 navigationIcon = {
-                    Icon(
-                        modifier = Modifier.size(44.dp),
-                        painter = painterResource(R.drawable.ic_home_foreground),
-                        contentDescription = "Back"
-                    )
+                    IconButton(
+                        onClick = { navController.navigate(Destination.HOME.route) }
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(44.dp),
+                            painter = painterResource(R.drawable.ic_home_foreground),
+                            contentDescription = "Back"
+                        )
+                    }
                 }
             )
         }
@@ -71,9 +72,52 @@ fun AddScoreCard(navController: NavController) {
             modifier = Modifier.padding(it).fillMaxWidth().padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             if (scoreboardData.value != null) {
                 item {
                     Scoreboard(scoreboardData.value!!)
+                }
+                item {
+                    PrimaryTabRow(
+                        selectedTabIndex = selectedDestination
+                    ) {
+                        Tab(
+                            selected = selectedDestination == 0,
+                            onClick = {
+                                selectedDestination = 0
+                            }) {
+                            Text("Away")
+                        }
+                        Tab(
+                            selected = selectedDestination == 1,
+                            onClick = {
+                                selectedDestination = 1
+                            }) {
+                            Text("Home")
+                        }
+                    }
+                    when (selectedDestination) {
+                        0 -> {
+                            (1..9).forEach { order ->
+                                AddHitter(order, scoreboardData.value?.away?.hitters?.get(order - 1)) { hitter ->
+                                    scoreboardData.value?.away?.hitters?.getOrPut(order - 1
+                                    ) {
+                                       arrayListOf(hitter)
+                                    }
+                                }
+                            }
+                        }
+                        else -> {
+                            (1..9).forEach { order ->
+                                AddHitter(order, scoreboardData.value?.home?.hitters?.get(order - 1)) { hitter ->
+                                    scoreboardData.value?.home?.hitters?.getOrPut(order - 1
+                                    ) {
+                                        arrayListOf(hitter)
+                                    }?.add(hitter)
+                                }
+                            }
+                        }
+                    }
                 }
             } else {
                 item {
@@ -94,9 +138,7 @@ fun AddScoreCard(navController: NavController) {
             AddTeam(
                 onDismiss = {openAddTeamDialog.value = false},
                 onConfirmation = { away, home ->
-                    awayTeam = ScoreInfo(away)
-                    homeTeam = ScoreInfo(home)
-                    scoreboardData.value = ScoreboardData(awayTeam, homeTeam, totalInnings = baseInnings)
+                    scoreboardData.value = ScoreboardData(ScoreInfo(away), ScoreInfo(home), totalInnings = baseInnings)
                     openAddTeamDialog.value = false
                 }
             )

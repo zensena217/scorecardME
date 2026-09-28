@@ -1,10 +1,13 @@
 package com.example.scorecardme.composables.add_score_card
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
@@ -24,17 +27,16 @@ fun AddTeam(
     onDismiss: () -> Unit,
     onConfirmation: (away: String, home: String) -> Unit
 ) {
-    val colors = MaterialTheme.colorScheme
     val away = rememberTextFieldState("")
     val home = rememberTextFieldState("")
     Dialog(
         onDismissRequest = { onDismiss() },
     ) {
         Card(
-            modifier = Modifier.fillMaxWidth().padding(8.dp)
+            modifier = Modifier.fillMaxWidth().fillMaxHeight(.33f)
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth().fillMaxSize(.8f)
+                modifier = Modifier.fillMaxWidth().padding(8.dp)
             ) {
                 Row {
                     Text("Enter Home & Away Teams")
@@ -42,29 +44,27 @@ fun AddTeam(
                 Row {
                     OutlinedTextField(
                         state = away,
-                        label = { Text("Away")}
+                        label = { Text("Away")},
+                        lineLimits = TextFieldLineLimits.SingleLine
                     )
                 }
                 Row {
                     OutlinedTextField(
                         state = home,
-                        label = { Text("Home")}
+                        label = { Text("Home")},
+                        lineLimits = TextFieldLineLimits.SingleLine
                     )
                 }
-                Row {
-                    ElevatedButton (
-                        onClick = {onDismiss()},
-                        colors = ButtonColors(colors.secondaryContainer, colors.secondary, Color.Gray, colors.secondary)
-                    ) {
-                        Text("Cancel")
-                    }
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(8.dp, 4.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
                     ElevatedButton(
                         onClick = {
                             if (away.text.isNotBlank() && home.text.isNotBlank()) {
                                 onConfirmation(away.text.toString(), home.text.toString())
                             }
-                        },
-                        colors = ButtonColors(Color.Green, colors.primary, Color.Gray, colors.primary)
+                        }
                     ) {
                         Text("Save")
                     }

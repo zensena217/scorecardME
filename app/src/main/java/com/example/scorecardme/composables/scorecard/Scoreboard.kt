@@ -220,12 +220,16 @@ fun PreviewScoreboard() {
     val scoreboardData = ScoreboardData(
         ScoreInfo(
             "Marlins",
+            hashMapOf(),
+            arrayListOf(),
             arrayListOf(0,0,0,0,0,0,0,3,1),
             10,
             0
         ),
         ScoreInfo(
             "Nationals",
+            hashMapOf(),
+            arrayListOf(),
             arrayListOf(3,3,1,0,0,0,0,0),
             15,
             2
