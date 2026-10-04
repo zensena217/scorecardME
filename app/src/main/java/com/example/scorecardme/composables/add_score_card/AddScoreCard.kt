@@ -111,30 +111,30 @@ fun AddScoreCard(navController: NavController) {
                         0 -> {
                             (1..9).forEach { order ->
                                 AddHitter(order, scoreboardData.value?.away?.hitters?.get(order - 1)) { hitter ->
-                                    val awayTeam = scoreboardData.value?.away
-                                    awayTeam?.hitters?.get(order - 1)?.add(hitter) ?: run {
-                                        awayTeam?.hitters?.put(order - 1, arrayListOf(hitter))
+                                    val current = scoreboardData.value ?: return@AddHitter
+                                    val awayHitters = current.away.hitters.toMutableMap().apply {
+                                        val hitterList = get(order - 1)?.toMutableList() ?: mutableListOf()
+                                        hitterList.add(hitter)
+                                        put(order - 1, ArrayList(hitterList))
                                     }
-                                    scoreboardData.value = awayTeam?.let { away ->
-                                        scoreboardData.value?.copy(
-                                            away = away
-                                        )
-                                    }
+                                    scoreboardData.value = current.copy(
+                                        away = current.away.copy(hitters = awayHitters)
+                                    )
                                 }
                             }
                         }
                         else -> {
                             (1..9).forEach { order ->
-                                AddHitter(order, scoreboardData.value?.home?.hitters?.get(order - 1)) { hitter ->
-                                    val homeTeam = scoreboardData.value?.home
-                                    homeTeam?.hitters?.get(order - 1)?.add(hitter) ?: run {
-                                        homeTeam?.hitters?.put(order - 1, arrayListOf(hitter))
+                                AddHitter(order, scoreboardData.value?.away?.hitters?.get(order - 1)) { hitter ->
+                                    val current = scoreboardData.value ?: return@AddHitter
+                                    val homeHitters = current.home.hitters.toMutableMap().apply {
+                                        val hitterList = get(order - 1)?.toMutableList() ?: mutableListOf()
+                                        hitterList.add(hitter)
+                                        put(order - 1, ArrayList(hitterList))
                                     }
-                                    scoreboardData.value = homeTeam?.let { home ->
-                                        scoreboardData.value?.copy(
-                                            home = home
-                                        )
-                                    }
+                                    scoreboardData.value = current.copy(
+                                        home = current.home.copy(hitters = homeHitters)
+                                    )
                                 }
                             }
                         }

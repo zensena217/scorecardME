@@ -1,22 +1,17 @@
 package com.example.scorecardme.composables.add_score_card
 
-import android.R.attr.onClick
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -26,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -47,13 +41,8 @@ fun AddHitter(
     hitters: ArrayList<Hitter>?,
     onAddHitter: (hitter: Hitter) -> Unit
 ) {
-    val rememberHitters = remember { mutableStateListOf<Hitter>().apply {
-        if (!hitters.isNullOrEmpty()) {
-            addAll(hitters)
-        }
-    }}
     val hitterName = rememberTextFieldState()
-    var hitterPosition by remember {mutableStateOf<Position?>(null) }
+    var hitterPosition by remember { mutableStateOf<Position?>(null) }
     var openDialog by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
 
@@ -74,9 +63,9 @@ fun AddHitter(
                 onClick = { openDialog = true },
                 contentPadding = PaddingValues(8.dp, 0.dp)
             ) {
-                Text(if (rememberHitters.isNotEmpty()) {
-                    rememberHitters.joinToString("/") {
-                        hitter -> "${hitter.name}(${hitter.position.shortLabel})"
+                Text(if (!hitters.isNullOrEmpty()) {
+                    hitters.joinToString("/") { hitter ->
+                        "${hitter.name}(${hitter.position.shortLabel})"
                     }
                 } else {
                     "Add Player"
@@ -142,9 +131,10 @@ fun AddHitter(
                                 val position = hitterPosition
                                 if (hitterName.text.isNotBlank() && position != null) {
                                     val newHitter = Hitter(hitterName.text.toString(), position)
-                                    rememberHitters.add(newHitter)
                                     onAddHitter(newHitter)
                                     hitterName.clearText()
+                                    hitterPosition = null
+                                    error = false
                                     openDialog = false
                                 } else {
                                     error = true
