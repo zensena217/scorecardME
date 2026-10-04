@@ -1,6 +1,8 @@
 package com.example.scorecardme.data
 
-data class GameHistory(
+import kotlinx.serialization.Serializable
+
+@Serializable data class GameHistory(
     val id: Int,
     val home: Team,
     val homeScore: Int,
