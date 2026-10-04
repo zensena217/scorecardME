@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.scorecardme.R
+import com.example.scorecardme.composables.HowToScore
 import com.example.scorecardme.composables.scorecard.Scoreboard
 import com.example.scorecardme.data.Destination
 import com.example.scorecardme.data.ScoreInfo
@@ -38,7 +39,8 @@ import com.example.scorecardme.data.ScoreboardData
 @Composable
 fun AddScoreCard(navController: NavController) {
 
-    val openAddTeamDialog = remember { mutableStateOf(false) }
+    var openAddTeamDialog by remember { mutableStateOf(false) }
+    var openInfo by remember {mutableStateOf(false)}
     val scoreboardData = remember { mutableStateOf<ScoreboardData?>(null) }
     var selectedDestination by rememberSaveable { mutableIntStateOf(0) }
     var baseInnings = 9
@@ -65,7 +67,7 @@ fun AddScoreCard(navController: NavController) {
                 },
                 actions = {
                     IconButton(
-                        onClick = {}
+                        onClick = { openInfo = true}
                     ) {
                         Icon(
                             modifier = Modifier.size(44.dp),
@@ -143,7 +145,7 @@ fun AddScoreCard(navController: NavController) {
             } else {
                 item {
                     Button(
-                        onClick = { openAddTeamDialog.value = true }
+                        onClick = { openAddTeamDialog = true }
                     ) {
                         Icon(
                             modifier = Modifier.size(32.dp),
@@ -155,14 +157,18 @@ fun AddScoreCard(navController: NavController) {
                 }
             }
         }
-        if (openAddTeamDialog.value) {
+        if (openAddTeamDialog) {
             AddTeam(
-                onDismiss = {openAddTeamDialog.value = false},
+                onDismiss = {openAddTeamDialog = false},
                 onConfirmation = { away, home ->
                     scoreboardData.value = ScoreboardData(ScoreInfo(away), ScoreInfo(home), totalInnings = baseInnings)
-                    openAddTeamDialog.value = false
+                    openAddTeamDialog = false
                 }
             )
+        }
+
+        if (openInfo) {
+            HowToScore(modifier = Modifier.fillMaxSize().padding(it)) { openInfo = false }
         }
     }
 }

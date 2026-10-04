@@ -1,3 +1,48 @@
 <resources>
     <string name="app_name">ScoreCardME</string>
+
+    <string name="how_to_score">How to Score a Baseball Game</string>
+    <string name="how_to_start">First, add both teams that are playing in today\'s game. Then look at the lineups posted by both teams and add each player to their corresponding spot in the lineup. To update a batter\'s scoring, select the corresponding inning column and enter how they did.</string>
+
+    <!-- Scoring Info -->
+    <string name="scoring_example_title">Scoring Examples:</string>
+    <string name="position_numbers">Positions:</string>
+    <string-array name="positions">
+        <item>1=Pitcher</item>
+        <item>2=Catcher</item>
+        <item>3=1<sup>st</sup> Baseman</item>
+        <item>4=2<sup>nd</sup> Baseman</item>
+        <item>5=3<sup>rd</sup> Baseman</item>
+        <item>6=Shortstop</item>
+        <item>7=Left Fielder</item>
+        <item>8=Center Fielder</item>
+        <item>9=Right Fielder</item>
+    </string-array>
+    <string-array name="scoring_examples">
+        <item>K=strikeout (backward K=called 3<sup>rd</sup> strike)</item>
+        <item>W/BB=walk, (IW=intentional walk)</item>
+        <item>7=flyout to left</item>
+        <item>7F=flyout to left foul ball</item>
+        <item><u>6</u>=lineout to shortstop</item>
+        <item>3U=groundout to 1<sup>st</sup> base unassisted</item>
+        <item>FC=Fielder\'s Choice</item>
+        <item>4–3=groundout to 2<sup>nd</sup> to 1<sup>st</sup></item>
+        <item>6–4–3=double play shortstop to 2<sup>nd</sup> to 1<sup>st</sup></item>
+        <item>HP=hit by pitch</item>
+        <item>HB=hit batter</item>
+        <item>WP=wild pitch</item>
+        <item>PB=passed ball</item>
+        <item>BK=balk</item>
+        <item>B=bunt</item>
+        <item>SH=sacrifice</item>
+        <item>SF=sacrifice fly</item>
+        <item>SB=stolen base</item>
+        <item>CS=caught stealing</item>
+        <item>E=error</item>
+        <item>*=great play</item>
+    </string-array>
+    <!-- End Scoring Info -->
+
+
+    <string name="scoring_credit">Credit to: Bob Carpenter</string>
 </resources>
