@@ -1,4 +1,4 @@
-package com.example.scorecardme.composables
+package com.example.scorecardme.composables.scorecard
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.scorecardme.composables.generic.TableCell
+import com.example.scorecardme.data.DefaultPositions
 
 @Composable
 fun DisplayTeam(teamData: TeamData) {
@@ -313,15 +314,16 @@ fun PreviewDisplayTeam() {
             )
         ),
         hitters = mapOf(
-            Pair(1, arrayListOf(Hitter("Wood", Position(0, "DH")))),
-            Pair(2, arrayListOf(Hitter("Ortiz", Position(3, "1B")))),
-            Pair(3, arrayListOf(Hitter("Crews", Position(9, "RF")))),
-            Pair(4, arrayListOf(Hitter("Abrams", Position(6, "SS")))),
-            Pair(5, arrayListOf(Hitter("House", Position(5, "3B")))),
-            Pair(6, arrayListOf(Hitter("Lile", Position(7, "LF")))),
-            Pair(7, arrayListOf(Hitter("Ford", Position(2, "C")))),
-            Pair(8, arrayListOf(Hitter("Vivas", Position(4, "2B")), Hitter("Nunez", Position(4, "2B")))),
-            Pair(9, arrayListOf(Hitter("Young", Position(8, "CF")))),
+            Pair(1, arrayListOf(Hitter("Wood", DefaultPositions.DH.position))),
+            Pair(2, arrayListOf(Hitter("Ortiz", DefaultPositions.FIRST_BASEMAN.position))),
+            Pair(3, arrayListOf(Hitter("Crews", DefaultPositions.RIGHT_FIELDER.position))),
+            Pair(4, arrayListOf(Hitter("Abrams", DefaultPositions.SHORTSTOP.position))),
+            Pair(5, arrayListOf(Hitter("House", DefaultPositions.THIRD_BASEMAN.position))),
+            Pair(6, arrayListOf(Hitter("Lile", DefaultPositions.LEFT_FIELDER.position))),
+            Pair(7, arrayListOf(Hitter("Ford", DefaultPositions.CATCHER.position))),
+            Pair(8, arrayListOf(Hitter("Vivas", DefaultPositions.SECOND_BASEMAN.position), Hitter("Nunez",
+                DefaultPositions.SECOND_BASEMAN.position))),
+            Pair(9, arrayListOf(Hitter("Young", DefaultPositions.CENTER_FIELDER.position))),
         )
     )
     DisplayTeam(teamData)

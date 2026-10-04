@@ -1,4 +1,4 @@
-package com.example.scorecardme.composables
+package com.example.scorecardme.composables.scorecard
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -97,10 +97,13 @@ fun Scoreboard(scoreboardData: ScoreboardData) {
                             )
                         }.padding(6.dp, 0.dp)
                     ) {
-                        Text("${scoreboardData.away.runs[index]}", fontSize = TextUnit(4f, TextUnitType.Em))
+                        Text("${scoreboardData.away.runs.getOrNull(index) ?: "-"}", fontSize = TextUnit(4f, TextUnitType.Em))
                     }
                     Row {
-                        Text("${scoreboardData.home.runs.getOrNull(index) ?: "x"}", fontSize = TextUnit(4f, TextUnitType.Em))
+                        Text(
+                            text = "${scoreboardData.home.runs.getOrNull(index) ?: if (index >= 8) "x" else "-"}",
+                            fontSize = TextUnit(4f, TextUnitType.Em)
+                        )
                     }
                 }
             }
@@ -140,10 +143,10 @@ fun Scoreboard(scoreboardData: ScoreboardData) {
                 Text("R", fontSize = TextUnit(4f, TextUnitType.Em))
             }
             Row {
-                Text("${scoreboardData.away.runs.reduce{tot, i -> tot + i}}", fontSize = TextUnit(4f, TextUnitType.Em))
+                Text("${scoreboardData.away.runs.reduceOrNull { tot, i -> tot + i } ?: 0}", fontSize = TextUnit(4f, TextUnitType.Em))
             }
             Row {
-                Text("${scoreboardData.home.runs.reduce { tot, i -> tot + i }}", fontSize = TextUnit(4f, TextUnitType.Em))
+                Text("${scoreboardData.home.runs.reduceOrNull { tot, i -> tot + i } ?: 0}", fontSize = TextUnit(4f, TextUnitType.Em))
             }
         }
         Column(
@@ -217,12 +220,16 @@ fun PreviewScoreboard() {
     val scoreboardData = ScoreboardData(
         ScoreInfo(
             "Marlins",
+            hashMapOf(),
+            arrayListOf(),
             arrayListOf(0,0,0,0,0,0,0,3,1),
             10,
             0
         ),
         ScoreInfo(
             "Nationals",
+            hashMapOf(),
+            arrayListOf(),
             arrayListOf(3,3,1,0,0,0,0,0),
             15,
             2

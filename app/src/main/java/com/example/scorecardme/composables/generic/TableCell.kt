@@ -34,9 +34,6 @@ fun TableCell(
                     strokeWidth = strokeWidth
                 )
             }
-            if (drawUp) {
-
-            }
             if (drawRight) {
                 drawLine(
                     color = color,
@@ -45,7 +42,7 @@ fun TableCell(
                     strokeWidth = strokeWidth
                 )
             }
-            if (drawDown) {
+            if (drawDown || drawUp) {
                 drawLine(
                     color = color,
                     start = Offset(0f, 0f),

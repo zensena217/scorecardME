@@ -8,7 +8,9 @@ data class ScoreboardData(
 
 data class ScoreInfo(
     val name: String,
-    val runs: ArrayList<Int>,
-    val hits: Int,
-    val errors: Int
+    val hitters: MutableMap<Int, ArrayList<Hitter>> = hashMapOf(),
+    val pitchers: ArrayList<Pitcher> = arrayListOf(),
+    val runs: ArrayList<Int> = arrayListOf(),
+    val hits: Int = 0,
+    val errors: Int = 0
 )
