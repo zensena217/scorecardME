@@ -33,7 +33,6 @@ import com.example.scorecardme.composables.scorecard.Scoreboard
 import com.example.scorecardme.data.Destination
 import com.example.scorecardme.data.ScoreInfo
 import com.example.scorecardme.data.ScoreboardData
-import kotlin.collections.getOrPut
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
