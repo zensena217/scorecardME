@@ -112,9 +112,8 @@ fun AddScoreCard(navController: NavController) {
                         0 -> {
                             (1..9).forEach { order ->
                                 AddHitter(order, scoreboardData.value?.away?.hitters?.get(order - 1)) { hitter ->
-                                    scoreboardData.value?.away?.hitters?.getOrPut(order - 1
-                                    ) {
-                                       arrayListOf(hitter)
+                                    scoreboardData.value?.away?.hitters?.get(order - 1)?.add(hitter) ?: run {
+                                        scoreboardData.value?.away?.hitters?.put(order - 1, arrayListOf(hitter))
                                     }
                                 }
                             }
@@ -122,10 +121,9 @@ fun AddScoreCard(navController: NavController) {
                         else -> {
                             (1..9).forEach { order ->
                                 AddHitter(order, scoreboardData.value?.home?.hitters?.get(order - 1)) { hitter ->
-                                    scoreboardData.value?.home?.hitters?.getOrPut(order - 1
-                                    ) {
-                                        arrayListOf(hitter)
-                                    }?.add(hitter)
+                                    scoreboardData.value?.home?.hitters?.get(order - 1)?.add(hitter) ?: run {
+                                        scoreboardData.value?.home?.hitters?.put(order - 1, arrayListOf(hitter))
+                                    }
                                 }
                             }
                         }
