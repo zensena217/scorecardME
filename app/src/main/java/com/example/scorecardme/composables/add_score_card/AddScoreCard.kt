@@ -59,8 +59,19 @@ fun AddScoreCard(navController: NavController) {
                     ) {
                         Icon(
                             modifier = Modifier.size(44.dp),
-                            painter = painterResource(R.drawable.ic_home_foreground),
+                            painter = painterResource(R.drawable.ic_back_foreground),
                             contentDescription = "Back"
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(
+                        onClick = {}
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(44.dp),
+                            painter = painterResource(R.drawable.ic_info_foreground),
+                            contentDescription = "How to Score"
                         )
                     }
                 }
@@ -79,7 +90,8 @@ fun AddScoreCard(navController: NavController) {
                 }
                 item {
                     PrimaryTabRow(
-                        selectedTabIndex = selectedDestination
+                        selectedTabIndex = selectedDestination,
+                        modifier = Modifier.padding(4.dp)
                     ) {
                         Tab(
                             selected = selectedDestination == 0,
@@ -126,7 +138,7 @@ fun AddScoreCard(navController: NavController) {
                     ) {
                         Icon(
                             modifier = Modifier.size(32.dp),
-                            painter = painterResource(R.drawable.baseline_post_add_24),
+                            painter = painterResource(R.drawable.ic_add_foreground),
                             contentDescription = "Add Teams"
                         )
                         Text("Add Teams")
