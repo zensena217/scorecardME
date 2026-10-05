@@ -1,4 +1,4 @@
-package com.example.scorecardme.composables.scorecard
+package com.example.scorecardme.composable.scorecard
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.PrimaryTabRow
@@ -14,7 +14,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.scorecardme.data.DefaultPositions
 import com.example.scorecardme.data.Hitter
 import com.example.scorecardme.data.Pitcher
-import com.example.scorecardme.data.Position
 import com.example.scorecardme.data.ScoreInfo
 import com.example.scorecardme.data.ScoreboardData
 import com.example.scorecardme.data.TeamData

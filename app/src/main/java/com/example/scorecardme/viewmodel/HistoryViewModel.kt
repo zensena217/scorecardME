@@ -3,6 +3,7 @@ package com.example.scorecardme.viewmodel
 import androidx.lifecycle.ViewModel
 import com.example.scorecardme.data.GameHistory
 import com.example.scorecardme.data.Team
+import com.example.scorecardme.repository.HistoryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -43,7 +44,9 @@ data class HistoryState(
 )
 
 @HiltViewModel
-class HistoryViewModel @Inject constructor(): ViewModel() {
+class HistoryViewModel @Inject constructor(
+    private val repository: HistoryRepository
+): ViewModel() {
     private val _state = MutableStateFlow(HistoryState())
     val state: StateFlow<HistoryState> = _state.asStateFlow()
 }

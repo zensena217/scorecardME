@@ -1,4 +1,4 @@
-package com.example.scorecardme.composables.add_score_card
+package com.example.scorecardme.composable.add_score_card
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

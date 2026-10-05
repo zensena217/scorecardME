@@ -1,4 +1,4 @@
-package com.example.scorecardme.composables.history
+package com.example.scorecardme.composable.history
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -36,54 +36,54 @@ import com.example.scorecardme.data.Team
 @Composable
 fun History(modifier: Modifier = Modifier, navController: NavHostController, history: List<GameHistory>) {
     val colors = MaterialTheme.colorScheme
-        Box(
-            modifier = modifier.fillMaxSize(),
-            contentAlignment = Alignment.BottomEnd
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomEnd
+    ) {
+        LazyColumn(
+            modifier = Modifier.align(Alignment.TopCenter),
+            contentPadding = PaddingValues(8.dp, 4.dp),
+            overscrollEffect = null
         ) {
-            LazyColumn(
-                modifier = Modifier.align(Alignment.TopCenter),
-                contentPadding = PaddingValues(8.dp, 4.dp),
-                overscrollEffect = null
-            ) {
-                stickyHeader {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 4.dp)
-                            .background(colors.surface),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            "Past Games",
-                            fontWeight = FontWeight.Bold,
-                            fontStyle = FontStyle.Italic,
-                            color = colors.tertiary,
-                            fontSize = TextUnit(6f, TextUnitType.Em)
-                        )
-                    }
+            stickyHeader {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 4.dp)
+                        .background(colors.surface),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        "Past Games",
+                        fontWeight = FontWeight.Bold,
+                        fontStyle = FontStyle.Italic,
+                        color = colors.tertiary,
+                        fontSize = TextUnit(6f, TextUnitType.Em)
+                    )
                 }
+            }
 
-                items(history.plus(history).plus(history.plus(history))) { game ->
-                    Row(modifier = Modifier.padding(0.dp, 4.dp)) {
-                        GameInfoCard(Modifier.fillMaxWidth().fillMaxHeight(.33f), game)
-                    }
+            items(history) { game ->
+                Row(modifier = Modifier.padding(0.dp, 4.dp)) {
+                    GameInfoCard(Modifier.fillMaxWidth().fillMaxHeight(.33f), game)
                 }
             }
-            FloatingActionButton (
-                modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
-                onClick = {
-                    navController.navigate("add_score_card")
-                },
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                contentColor = MaterialTheme.colorScheme.secondary
-            ) {
-                Icon(
-                    modifier = Modifier.size(32.dp),
-                    painter = painterResource(R.drawable.baseline_post_add_24),
-                    contentDescription = "Add Game",
-                    tint = colors.tertiary
-                )
-            }
+        }
+        FloatingActionButton (
+            modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
+            onClick = {
+                navController.navigate("add_score_card")
+            },
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            contentColor = MaterialTheme.colorScheme.secondary
+        ) {
+            Icon(
+                modifier = Modifier.size(32.dp),
+                painter = painterResource(R.drawable.baseline_post_add_24),
+                contentDescription = "Add Game",
+                tint = colors.tertiary
+            )
+        }
     }
 }
 

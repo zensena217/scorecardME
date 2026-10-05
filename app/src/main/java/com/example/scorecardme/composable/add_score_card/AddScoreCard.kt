@@ -1,4 +1,4 @@
-package com.example.scorecardme.composables.add_score_card
+package com.example.scorecardme.composable.add_score_card
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.scorecardme.R
-import com.example.scorecardme.composables.HowToScore
-import com.example.scorecardme.composables.scorecard.Scoreboard
+import com.example.scorecardme.composable.HowToScore
+import com.example.scorecardme.composable.scorecard.Scoreboard
 import com.example.scorecardme.data.Destination
 import com.example.scorecardme.data.ScoreInfo
 import com.example.scorecardme.data.ScoreboardData

@@ -1,4 +1,4 @@
-package com.example.scorecardme.composables.scorecard
+package com.example.scorecardme.composable.scorecard
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import com.example.scorecardme.composables.generic.TableCell
+import com.example.scorecardme.composable.generic.TableCell
 import com.example.scorecardme.data.ScoreInfo
 import com.example.scorecardme.data.ScoreboardData
 
