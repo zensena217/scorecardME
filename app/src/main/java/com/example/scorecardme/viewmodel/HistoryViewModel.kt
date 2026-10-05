@@ -3,9 +3,11 @@ package com.example.scorecardme.viewmodel
 import androidx.lifecycle.ViewModel
 import com.example.scorecardme.data.GameHistory
 import com.example.scorecardme.data.Team
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 
 data class HistoryState(
     val currentHistory: List<GameHistory> = listOf(
@@ -40,7 +42,8 @@ data class HistoryState(
     )
 )
 
-class HistoryViewModel: ViewModel() {
+@HiltViewModel
+class HistoryViewModel @Inject constructor(): ViewModel() {
     private val _state = MutableStateFlow(HistoryState())
     val state: StateFlow<HistoryState> = _state.asStateFlow()
 }

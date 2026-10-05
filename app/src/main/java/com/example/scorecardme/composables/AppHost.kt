@@ -31,7 +31,7 @@ import com.example.scorecardme.viewmodel.HistoryViewModel
 
 @Composable
 fun AppHost(
-    viewModel: HistoryViewModel = viewModel()
+    viewModel: HistoryViewModel
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val navController = rememberNavController()
