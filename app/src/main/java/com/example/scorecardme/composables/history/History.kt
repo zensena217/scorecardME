@@ -34,37 +34,7 @@ import com.example.scorecardme.data.Team
 
 
 @Composable
-fun History(modifier: Modifier = Modifier, navController: NavHostController) {
-    val history = arrayListOf(
-        GameHistory(
-            0,
-            Team(
-                "WSH",
-                ""
-            ),
-            8,
-            Team(
-                "MIA",
-                ""
-            ),
-            3,
-            "9/12/26"
-        ),
-        GameHistory(
-            0,
-            Team(
-                "WSH",
-                ""
-            ),
-            2,
-            Team(
-                "MIA",
-                ""
-            ),
-            5,
-            "9/13/26"
-        )
-    )
+fun History(modifier: Modifier = Modifier, navController: NavHostController, history: List<GameHistory>) {
     val colors = MaterialTheme.colorScheme
         Box(
             modifier = modifier.fillMaxSize(),
@@ -120,5 +90,35 @@ fun History(modifier: Modifier = Modifier, navController: NavHostController) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewHistory() {
-    History(navController = rememberNavController())
+    val history = arrayListOf(
+        GameHistory(
+            0,
+            Team(
+                "WSH",
+                ""
+            ),
+            8,
+            Team(
+                "MIA",
+                ""
+            ),
+            3,
+            "9/12/26"
+        ),
+        GameHistory(
+            0,
+            Team(
+                "WSH",
+                ""
+            ),
+            2,
+            Team(
+                "MIA",
+                ""
+            ),
+            5,
+            "9/13/26"
+        )
+    )
+    History(navController = rememberNavController(), history = history)
 }
