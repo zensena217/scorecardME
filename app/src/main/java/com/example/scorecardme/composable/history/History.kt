@@ -20,8 +20,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
@@ -40,35 +42,34 @@ fun History(modifier: Modifier = Modifier, navController: NavHostController, his
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomEnd
     ) {
-        LazyColumn(
+        Text(
             modifier = Modifier.align(Alignment.TopCenter),
-            contentPadding = PaddingValues(8.dp, 4.dp),
-            overscrollEffect = null
-        ) {
-            stickyHeader {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 4.dp)
-                        .background(colors.surface),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        "Past Games",
-                        fontWeight = FontWeight.Bold,
-                        fontStyle = FontStyle.Italic,
-                        color = colors.tertiary,
-                        fontSize = TextUnit(6f, TextUnitType.Em)
-                    )
+            text = "Past Games",
+            fontWeight = FontWeight.Bold,
+            fontStyle = FontStyle.Italic,
+            color = colors.tertiary,
+            fontSize = TextUnit(6f, TextUnitType.Em)
+        )
+        if (history.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier.align(Alignment.TopCenter),
+                contentPadding = PaddingValues(8.dp, 4.dp),
+                overscrollEffect = null
+            ) {
+                items(history) { game ->
+                    Row(modifier = Modifier.padding(0.dp, 4.dp)) {
+                        GameInfoCard(Modifier.fillMaxWidth().fillMaxHeight(.33f), game)
+                    }
                 }
             }
-
-            items(history) { game ->
-                Row(modifier = Modifier.padding(0.dp, 4.dp)) {
-                    GameInfoCard(Modifier.fillMaxWidth().fillMaxHeight(.33f), game)
-                }
-            }
+        } else {
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = stringResource(R.string.no_game_history),
+                textAlign = TextAlign.Center
+            )
         }
+
         FloatingActionButton (
             modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
             onClick = {
@@ -120,5 +121,5 @@ fun PreviewHistory() {
             "9/13/26"
         )
     )
-    History(navController = rememberNavController(), history = history)
+    History(navController = rememberNavController(), history = arrayListOf())
 }

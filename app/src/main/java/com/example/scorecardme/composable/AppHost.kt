@@ -33,7 +33,7 @@ import com.example.scorecardme.viewmodel.HistoryViewModel
 fun AppHost(
     viewModel: HistoryViewModel = hiltViewModel()
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val history by viewModel.history.collectAsStateWithLifecycle()
     val navController = rememberNavController()
     val startDestination = Destination.HOME
     var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
@@ -70,7 +70,7 @@ fun AppHost(
             Destination.entries.forEach { destination ->
                 composable(destination.route) {
                     when (destination) {
-                        Destination.HOME -> History(modifier, navController, state.currentHistory)
+                        Destination.HOME -> History(modifier, navController, history.gameHistory)
                         Destination.H2H -> ScoreCard(modifier)
                         Destination.ADD_SCORE_CARD -> AddScoreCard(navController)
                     }
