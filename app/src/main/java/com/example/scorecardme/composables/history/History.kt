@@ -34,7 +34,7 @@ import com.example.scorecardme.data.Team
 
 
 @Composable
-fun History(modifier: Modifier = Modifier, navController: NavHostController, history: ArrayList<GameHistory>) {
+fun History(modifier: Modifier = Modifier, navController: NavHostController, history: List<GameHistory>) {
     val colors = MaterialTheme.colorScheme
         Box(
             modifier = modifier.fillMaxSize(),

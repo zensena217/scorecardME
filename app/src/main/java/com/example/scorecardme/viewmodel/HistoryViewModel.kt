@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 data class HistoryState(
-    val currentHistory: ArrayList<GameHistory> = arrayListOf(
+    val currentHistory: List<GameHistory> = listOf(
         GameHistory(
             0,
             Team(
