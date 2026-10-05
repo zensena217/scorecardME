@@ -70,7 +70,7 @@ fun AppHost(
             Destination.entries.forEach { destination ->
                 composable(destination.route) {
                     when (destination) {
-                        Destination.HOME -> History(modifier, navController)
+                        Destination.HOME -> History(modifier, navController, state.currentHistory)
                         Destination.H2H -> ScoreCard(modifier)
                         Destination.ADD_SCORE_CARD -> AddScoreCard(navController)
                     }
