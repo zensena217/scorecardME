@@ -36,11 +36,10 @@ fun GameInfoCard(modifier: Modifier = Modifier, history: GameHistory) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column(
-            ) {
+            Column {
                 Image(
                     modifier = Modifier.size(64.dp),
-                    painter = painterResource(R.mipmap.ic_mia_logo),
+                    painter = painterResource(history.away.logo),
                     contentDescription = "${history.away.name} logo"
                 )
             }
@@ -52,7 +51,7 @@ fun GameInfoCard(modifier: Modifier = Modifier, history: GameHistory) {
             Column{
                 Image(
                     modifier = Modifier.size(64.dp),
-                    painter = painterResource(R.mipmap.ic_wsh_foreground),
+                    painter = painterResource(history.home.logo),
                     contentDescription = "${history.home.name} logo"
                 )
             }
@@ -67,12 +66,12 @@ fun PreviewGameInfoCard() {
         0,
         Team(
             "WSH",
-            ""
+            R.drawable.nationals
         ),
         8,
         Team(
             "MIA",
-            ""
+            R.drawable.marlins
         ),
         3,
         "9/12/26"

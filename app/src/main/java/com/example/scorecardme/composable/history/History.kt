@@ -98,12 +98,12 @@ fun PreviewHistory() {
             0,
             Team(
                 "WSH",
-                ""
+                R.drawable.nationals
             ),
             8,
             Team(
                 "MIA",
-                ""
+                R.drawable.marlins
             ),
             3,
             "9/12/26"
@@ -112,12 +112,12 @@ fun PreviewHistory() {
             0,
             Team(
                 "WSH",
-                ""
+                R.drawable.nationals
             ),
             2,
             Team(
                 "MIA",
-                ""
+                R.drawable.marlins
             ),
             5,
             "9/13/26"

@@ -1,5 +1,6 @@
 package com.example.scorecardme.data
 
+import androidx.annotation.DrawableRes
 import kotlinx.serialization.Serializable
 
 data class TeamData(
@@ -10,7 +11,7 @@ data class TeamData(
 @Serializable
 data class Team(
     val name: String,
-    val logo: String
+    @param:DrawableRes val logo: Int
 )
 
 data class Hitter(

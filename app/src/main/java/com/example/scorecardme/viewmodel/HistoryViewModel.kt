@@ -2,6 +2,7 @@ package com.example.scorecardme.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.scorecardme.R
 import com.example.scorecardme.data.GameHistory
 import com.example.scorecardme.data.Team
 import com.example.scorecardme.repository.HistoryRepository
@@ -19,12 +20,12 @@ data class HistoryState(
             0,
             Team(
                 "WSH",
-                ""
+                R.drawable.nationals
             ),
             8,
             Team(
                 "MIA",
-                ""
+                R.drawable.marlins
             ),
             3,
             "9/12/26"
@@ -33,12 +34,12 @@ data class HistoryState(
             0,
             Team(
                 "WSH",
-                ""
+                R.drawable.nationals
             ),
             2,
             Team(
                 "MIA",
-                ""
+                R.drawable.marlins
             ),
             5,
             "9/13/26"
