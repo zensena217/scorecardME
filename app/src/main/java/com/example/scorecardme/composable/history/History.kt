@@ -1,7 +1,5 @@
 package com.example.scorecardme.composable.history
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -36,7 +34,11 @@ import com.example.scorecardme.data.Team
 
 
 @Composable
-fun History(modifier: Modifier = Modifier, navController: NavHostController, history: List<GameHistory>) {
+fun History(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    history: List<GameHistory>
+) {
     val colors = MaterialTheme.colorScheme
     Box(
         modifier = modifier.fillMaxSize(),

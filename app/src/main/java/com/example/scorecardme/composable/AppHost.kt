@@ -72,7 +72,9 @@ fun AppHost(
                     when (destination) {
                         Destination.HOME -> History(modifier, navController, history.gameHistory)
                         Destination.H2H -> ScoreCard(modifier)
-                        Destination.ADD_SCORE_CARD -> AddScoreCard(navController)
+                        Destination.ADD_SCORE_CARD -> AddScoreCard(navController, history.gameHistory.size) {
+                            viewModel.updateHistory(it)
+                        }
                     }
                 }
             }

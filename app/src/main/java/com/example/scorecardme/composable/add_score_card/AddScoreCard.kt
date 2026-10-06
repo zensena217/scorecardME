@@ -1,5 +1,6 @@
 package com.example.scorecardme.composable.add_score_card
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -8,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.PrimaryTabRow
@@ -32,12 +34,21 @@ import com.example.scorecardme.R
 import com.example.scorecardme.composable.HowToScore
 import com.example.scorecardme.composable.scorecard.Scoreboard
 import com.example.scorecardme.data.Destination
+import com.example.scorecardme.data.GameHistory
 import com.example.scorecardme.data.ScoreInfo
 import com.example.scorecardme.data.ScoreboardData
+import com.example.scorecardme.data.Team
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddScoreCard(navController: NavController) {
+fun AddScoreCard(
+    navController: NavController,
+    index: Int,
+    saveGameToState: (game: GameHistory) -> Unit
+) {
 
     var openAddTeamDialog by remember { mutableStateOf(false) }
     var openInfo by remember {mutableStateOf(false)}
@@ -80,81 +91,107 @@ fun AddScoreCard(navController: NavController) {
         }
 
     ) {
-        LazyColumn(
-            modifier = Modifier.padding(it).fillMaxWidth().padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+        Box(
+            modifier = Modifier.padding(it).fillMaxSize().padding(8.dp)
         ) {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth().align(Alignment.TopCenter),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
-            if (scoreboardData.value != null) {
-                item {
-                    Scoreboard(scoreboardData.value!!)
-                }
-                item {
-                    PrimaryTabRow(
-                        selectedTabIndex = selectedDestination,
-                        modifier = Modifier.padding(4.dp)
-                    ) {
-                        Tab(
-                            selected = selectedDestination == 0,
-                            onClick = {
-                                selectedDestination = 0
-                            }) {
-                            Text("Away")
-                        }
-                        Tab(
-                            selected = selectedDestination == 1,
-                            onClick = {
-                                selectedDestination = 1
-                            }) {
-                            Text("Home")
-                        }
+                if (scoreboardData.value != null) {
+                    item {
+                        Scoreboard(scoreboardData.value!!)
                     }
-                    when (selectedDestination) {
-                        0 -> {
-                            (1..9).forEach { order ->
-                                AddHitter(order, scoreboardData.value?.away?.hitters?.get(order - 1)) { hitter ->
-                                    val current = scoreboardData.value ?: return@AddHitter
-                                    val awayHitters = current.away.hitters.toMutableMap().apply {
-                                        val hitterList = get(order - 1)?.toMutableList() ?: mutableListOf()
-                                        hitterList.add(hitter)
-                                        put(order - 1, ArrayList(hitterList))
+                    item {
+                        PrimaryTabRow(
+                            selectedTabIndex = selectedDestination,
+                            modifier = Modifier.padding(4.dp)
+                        ) {
+                            Tab(
+                                selected = selectedDestination == 0,
+                                onClick = {
+                                    selectedDestination = 0
+                                }) {
+                                Text("Away")
+                            }
+                            Tab(
+                                selected = selectedDestination == 1,
+                                onClick = {
+                                    selectedDestination = 1
+                                }) {
+                                Text("Home")
+                            }
+                        }
+                        when (selectedDestination) {
+                            0 -> {
+                                (1..9).forEach { order ->
+                                    AddHitter(order, scoreboardData.value?.away?.hitters?.get(order - 1)) { hitter ->
+                                        val current = scoreboardData.value ?: return@AddHitter
+                                        val awayHitters = current.away.hitters.toMutableMap().apply {
+                                            val hitterList = get(order - 1)?.toMutableList() ?: mutableListOf()
+                                            hitterList.add(hitter)
+                                            put(order - 1, ArrayList(hitterList))
+                                        }
+                                        scoreboardData.value = current.copy(
+                                            away = current.away.copy(hitters = awayHitters)
+                                        )
                                     }
-                                    scoreboardData.value = current.copy(
-                                        away = current.away.copy(hitters = awayHitters)
-                                    )
+                                }
+                            }
+                            else -> {
+                                (1..9).forEach { order ->
+                                    AddHitter(order, scoreboardData.value?.away?.hitters?.get(order - 1)) { hitter ->
+                                        val current = scoreboardData.value ?: return@AddHitter
+                                        val homeHitters = current.home.hitters.toMutableMap().apply {
+                                            val hitterList = get(order - 1)?.toMutableList() ?: mutableListOf()
+                                            hitterList.add(hitter)
+                                            put(order - 1, ArrayList(hitterList))
+                                        }
+                                        scoreboardData.value = current.copy(
+                                            home = current.home.copy(hitters = homeHitters)
+                                        )
+                                    }
                                 }
                             }
                         }
-                        else -> {
-                            (1..9).forEach { order ->
-                                AddHitter(order, scoreboardData.value?.away?.hitters?.get(order - 1)) { hitter ->
-                                    val current = scoreboardData.value ?: return@AddHitter
-                                    val homeHitters = current.home.hitters.toMutableMap().apply {
-                                        val hitterList = get(order - 1)?.toMutableList() ?: mutableListOf()
-                                        hitterList.add(hitter)
-                                        put(order - 1, ArrayList(hitterList))
-                                    }
-                                    scoreboardData.value = current.copy(
-                                        home = current.home.copy(hitters = homeHitters)
-                                    )
-                                }
-                            }
+                    }
+                } else {
+                    item {
+                        Button(
+                            onClick = { openAddTeamDialog = true }
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(32.dp),
+                                painter = painterResource(R.drawable.ic_add_foreground),
+                                contentDescription = "Add Teams"
+                            )
+                            Text("Add Teams")
                         }
                     }
                 }
-            } else {
-                item {
-                    Button(
-                        onClick = { openAddTeamDialog = true }
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(32.dp),
-                            painter = painterResource(R.drawable.ic_add_foreground),
-                            contentDescription = "Add Teams"
-                        )
-                        Text("Add Teams")
-                    }
+            }
+            FloatingActionButton(
+                modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
+                onClick = {
+                    //TODO consolidate data typing for mapping newly added games to game history
+//                    saveGameToState(
+//                        GameHistory(
+//                            id = index + 1,
+//                            Team(scoreboardData.value?.home?.name ?: "", ""),
+//                            scoreboardData.value?.home?.runs?.reduce { acc, i ->  acc + i} ?: 0,
+//                            Team(scoreboardData.value?.away?.name ?: "", ""),
+//                            scoreboardData.value?.away?.runs?.reduce { acc, i ->  acc + i} ?: 0,
+//                            SimpleDateFormat.getDateInstance().format(Date.from(Instant.now()))
+//                        )
+//                    )
                 }
+            ) {
+                Icon(
+                    modifier = Modifier.size(32.dp),
+                    painter = painterResource(R.drawable.ic_save_foreground),
+                    contentDescription = "Add Game"
+                )
             }
         }
         if (openAddTeamDialog) {
@@ -176,5 +213,5 @@ fun AddScoreCard(navController: NavController) {
 @Preview
 @Composable
 fun PreviewAddScoreCard() {
-    AddScoreCard(rememberNavController())
+    AddScoreCard(rememberNavController(), 0) {}
 }

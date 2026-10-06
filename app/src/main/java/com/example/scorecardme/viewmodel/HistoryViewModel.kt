@@ -7,12 +7,10 @@ import com.example.scorecardme.data.Team
 import com.example.scorecardme.repository.HistoryRepository
 import com.example.scorecardme.store.Games
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.WhileSubscribed
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class HistoryState(
@@ -50,7 +48,7 @@ data class HistoryState(
 
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
-    repository: HistoryRepository
+    private val repository: HistoryRepository
 ): ViewModel() {
     val history: StateFlow<Games> = repository.getHistory()
         .stateIn(
@@ -58,4 +56,10 @@ class HistoryViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = Games(arrayListOf())
         )
+
+    fun updateHistory(game: GameHistory) {
+        viewModelScope.launch {
+            repository.updateHistory(game)
+        }
+    }
 }
