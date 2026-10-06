@@ -141,7 +141,7 @@ fun AddScoreCard(
                             }
                             else -> {
                                 (1..9).forEach { order ->
-                                    AddHitter(order, scoreboardData.value?.away?.hitters?.get(order - 1)) { hitter ->
+                                    AddHitter(order, scoreboardData.value?.home?.hitters?.get(order - 1)) { hitter ->
                                         val current = scoreboardData.value ?: return@AddHitter
                                         val homeHitters = current.home.hitters.toMutableMap().apply {
                                             val hitterList = get(order - 1)?.toMutableList() ?: mutableListOf()
