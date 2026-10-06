@@ -1,4 +1,4 @@
-package com.example.scorecardme.composables
+package com.example.scorecardme.composable
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

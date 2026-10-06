@@ -1,10 +1,13 @@
 package com.example.scorecardme.data
 
+import kotlinx.serialization.Serializable
+
 data class TeamData(
     val hitters: Map<Int, ArrayList<Hitter>>,
     val pitchers: ArrayList<Pitcher>
 )
 
+@Serializable
 data class Team(
     val name: String,
     val logo: String

@@ -1,10 +1,15 @@
 <resources>
     <string name="app_name">ScoreCardME</string>
 
+    <!-- History -->
+    <string name="no_game_history">You haven\'t scored any games, let\'s get started!</string>
+    <!-- End History -->
+
+    <!-- Scoring Info -->
     <string name="how_to_score">How to Score a Baseball Game</string>
     <string name="how_to_start">First, add both teams that are playing in today\'s game. Then look at the lineups posted by both teams and add each player to their corresponding spot in the lineup. To update a batter\'s scoring, select the corresponding inning column and enter how they did.</string>
 
-    <!-- Scoring Info -->
+
     <string name="scoring_example_title">Scoring Examples:</string>
     <string name="position_numbers">Positions:</string>
     <string-array name="positions">

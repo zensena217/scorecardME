@@ -1,11 +1,17 @@
 package com.example.scorecardme.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.scorecardme.data.GameHistory
 import com.example.scorecardme.data.Team
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.example.scorecardme.repository.HistoryRepository
+import com.example.scorecardme.store.Games
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class HistoryState(
     val currentHistory: List<GameHistory> = listOf(
@@ -40,7 +46,20 @@ data class HistoryState(
     )
 )
 
-class HistoryViewModel: ViewModel() {
-    private val _state = MutableStateFlow(HistoryState())
-    val state: StateFlow<HistoryState> = _state.asStateFlow()
+@HiltViewModel
+class HistoryViewModel @Inject constructor(
+    private val repository: HistoryRepository
+): ViewModel() {
+    val history: StateFlow<Games> = repository.getHistory()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = Games(arrayListOf())
+        )
+
+    fun updateHistory(game: GameHistory) {
+        viewModelScope.launch {
+            repository.updateHistory(game)
+        }
+    }
 }

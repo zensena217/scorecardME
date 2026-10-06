@@ -1,7 +1,5 @@
-package com.example.scorecardme.composables.history
+package com.example.scorecardme.composable.history
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -20,8 +18,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
@@ -34,56 +34,59 @@ import com.example.scorecardme.data.Team
 
 
 @Composable
-fun History(modifier: Modifier = Modifier, navController: NavHostController, history: List<GameHistory>) {
+fun History(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    history: List<GameHistory>
+) {
     val colors = MaterialTheme.colorScheme
-        Box(
-            modifier = modifier.fillMaxSize(),
-            contentAlignment = Alignment.BottomEnd
-        ) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomEnd
+    ) {
+        Text(
+            modifier = Modifier.align(Alignment.TopCenter),
+            text = "Past Games",
+            fontWeight = FontWeight.Bold,
+            fontStyle = FontStyle.Italic,
+            color = colors.tertiary,
+            fontSize = TextUnit(6f, TextUnitType.Em)
+        )
+        if (history.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier.align(Alignment.TopCenter),
                 contentPadding = PaddingValues(8.dp, 4.dp),
                 overscrollEffect = null
             ) {
-                stickyHeader {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 4.dp)
-                            .background(colors.surface),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            "Past Games",
-                            fontWeight = FontWeight.Bold,
-                            fontStyle = FontStyle.Italic,
-                            color = colors.tertiary,
-                            fontSize = TextUnit(6f, TextUnitType.Em)
-                        )
-                    }
-                }
-
-                items(history.plus(history).plus(history.plus(history))) { game ->
+                items(history) { game ->
                     Row(modifier = Modifier.padding(0.dp, 4.dp)) {
                         GameInfoCard(Modifier.fillMaxWidth().fillMaxHeight(.33f), game)
                     }
                 }
             }
-            FloatingActionButton (
-                modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
-                onClick = {
-                    navController.navigate("add_score_card")
-                },
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                contentColor = MaterialTheme.colorScheme.secondary
-            ) {
-                Icon(
-                    modifier = Modifier.size(32.dp),
-                    painter = painterResource(R.drawable.baseline_post_add_24),
-                    contentDescription = "Add Game",
-                    tint = colors.tertiary
-                )
-            }
+        } else {
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = stringResource(R.string.no_game_history),
+                textAlign = TextAlign.Center
+            )
+        }
+
+        FloatingActionButton (
+            modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
+            onClick = {
+                navController.navigate("add_score_card")
+            },
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            contentColor = MaterialTheme.colorScheme.secondary
+        ) {
+            Icon(
+                modifier = Modifier.size(32.dp),
+                painter = painterResource(R.drawable.baseline_post_add_24),
+                contentDescription = "Add Game",
+                tint = colors.tertiary
+            )
+        }
     }
 }
 
@@ -120,5 +123,5 @@ fun PreviewHistory() {
             "9/13/26"
         )
     )
-    History(navController = rememberNavController(), history = history)
+    History(navController = rememberNavController(), history = arrayListOf())
 }

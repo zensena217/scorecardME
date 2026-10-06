@@ -1,4 +1,4 @@
-package com.example.scorecardme.composables
+package com.example.scorecardme.composable
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,23 +17,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.scorecardme.R
-import com.example.scorecardme.composables.history.History
-import com.example.scorecardme.composables.add_score_card.AddScoreCard
-import com.example.scorecardme.composables.scorecard.ScoreCard
+import com.example.scorecardme.composable.history.History
+import com.example.scorecardme.composable.add_score_card.AddScoreCard
+import com.example.scorecardme.composable.scorecard.ScoreCard
 import com.example.scorecardme.data.Destination
 import com.example.scorecardme.viewmodel.HistoryViewModel
 
 @Composable
 fun AppHost(
-    viewModel: HistoryViewModel = viewModel()
+    viewModel: HistoryViewModel = hiltViewModel()
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val history by viewModel.history.collectAsStateWithLifecycle()
     val navController = rememberNavController()
     val startDestination = Destination.HOME
     var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
@@ -70,9 +70,11 @@ fun AppHost(
             Destination.entries.forEach { destination ->
                 composable(destination.route) {
                     when (destination) {
-                        Destination.HOME -> History(modifier, navController, state.currentHistory)
+                        Destination.HOME -> History(modifier, navController, history.gameHistory)
                         Destination.H2H -> ScoreCard(modifier)
-                        Destination.ADD_SCORE_CARD -> AddScoreCard(navController)
+                        Destination.ADD_SCORE_CARD -> AddScoreCard(navController, history.gameHistory.size) {
+                            viewModel.updateHistory(it)
+                        }
                     }
                 }
             }
